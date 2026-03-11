@@ -1,5 +1,5 @@
 [project]
-name = "SLEEB Lab Experiments"
+name = "SLEEB-Lab-Experiments"
 version = "0.1.0"
 description = "Template repository for exprimental workflows - cameras, microcontrollers, Bonsai."
 readme = "README.md"
