@@ -49,7 +49,7 @@ Luckily recording from multiple cameras simultanously is the easiest part. You c
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="cv:VideoWriter">
-          <cv:FileName>C:\Users\Admin\Projects\BelayExperiments\data\video-recording.avi</cv:FileName>
+          <cv:FileName>C:\Users\Admin\Projects\SLEEB-Experiments\data\ELP1920.avi</cv:FileName>
           <cv:Suffix>Timestamp</cv:Suffix>
           <cv:Buffered>true</cv:Buffered>
           <cv:Overwrite>false</cv:Overwrite>
@@ -131,40 +131,153 @@ Luckily recording from multiple cameras simultanously is the easiest part. You c
       <Expression xsi:type="Disable">
         <Builder xsi:type="Combinator">
           <Combinator xsi:type="cv:LoadIntrinsics">
-            <cv:FileName>C:\Users\Admin\Projects\BelayExperiments\camera-intrinsics\ELP_intrinsics2.yml</cv:FileName>
+            <cv:FileName>C:\Users\Admin\Projects\SLEEB-Experiments\experiments\camera-intrinsics\ELP_1920x1080_intrinsics2026-03-11T14_13_57.yml</cv:FileName>
           </Combinator>
         </Builder>
       </Expression>
       <Expression xsi:type="Disable">
         <Builder xsi:type="PropertyMapping">
-          <PropertyMappings />
+          <PropertyMappings>
+            <Property Name="ImageSize" Selector="ImageSize" />
+            <Property Name="FocalLength" Selector="FocalLength" />
+            <Property Name="PrincipalPoint" Selector="PrincipalPoint" />
+            <Property Name="RadialDistortion" Selector="RadialDistortion" />
+            <Property Name="TangentialDistortion" Selector="TangentialDistortion" />
+          </PropertyMappings>
         </Builder>
       </Expression>
       <Expression xsi:type="Disable">
         <Builder xsi:type="Combinator">
           <Combinator xsi:type="cv:Undistort">
             <cv:ImageSize>
-              <cv:Width>640</cv:Width>
-              <cv:Height>480</cv:Height>
+              <cv:Width>1920</cv:Width>
+              <cv:Height>1080</cv:Height>
             </cv:ImageSize>
-            <cv:Alpha>0</cv:Alpha>
+            <cv:Alpha>0.54758981445192234</cv:Alpha>
             <cv:FocalLength>
-              <cv:X>503.52532958984375</cv:X>
-              <cv:Y>501.61544799804688</cv:Y>
+              <cv:X>2109.643310546875</cv:X>
+              <cv:Y>2103.686767578125</cv:Y>
             </cv:FocalLength>
             <cv:PrincipalPoint>
-              <cv:X>297.55792236328125</cv:X>
-              <cv:Y>237.22175598144531</cv:Y>
+              <cv:X>954.7537841796875</cv:X>
+              <cv:Y>616.91571044921875</cv:Y>
             </cv:PrincipalPoint>
             <cv:RadialDistortion>
-              <cv:X>-0.29658779501914978</cv:X>
-              <cv:Y>-0.011305746622383595</cv:Y>
-              <cv:Z>0.13969382643699646</cv:Z>
+              <cv:X>-1.4919424057006836</cv:X>
+              <cv:Y>12.616745948791504</cv:Y>
+              <cv:Z>-107.29862213134766</cv:Z>
             </cv:RadialDistortion>
             <cv:TangentialDistortion>
-              <cv:X>0.0088229179382324219</cv:X>
-              <cv:Y>0.0077228806912899017</cv:Y>
+              <cv:X>-0.025676880031824112</cv:X>
+              <cv:Y>-0.0010677428217604756</cv:Y>
             </cv:TangentialDistortion>
+          </Combinator>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="cv:VideoWriter">
+            <cv:FileName>C:\Users\Admin\Projects\BelayExperiments\data\video-recording.avi</cv:FileName>
+            <cv:Suffix>Timestamp</cv:Suffix>
+            <cv:Buffered>true</cv:Buffered>
+            <cv:Overwrite>false</cv:Overwrite>
+            <cv:FourCC>FMP4</cv:FourCC>
+            <cv:FrameRate>30</cv:FrameRate>
+            <cv:FrameSize>
+              <cv:Width>0</cv:Width>
+              <cv:Height>0</cv:Height>
+            </cv:FrameSize>
+            <cv:ResizeInterpolation>NearestNeighbor</cv:ResizeInterpolation>
+          </Combinator>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="rx:Timestamp" />
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="io:CsvWriter">
+          <io:FileName>C:\Users\Admin\Projects\SLEEB-Experiments\data\cam-check.csv</io:FileName>
+          <io:Append>false</io:Append>
+          <io:Overwrite>false</io:Overwrite>
+          <io:Suffix>Timestamp</io:Suffix>
+          <io:IncludeHeader>true</io:IncludeHeader>
+          <io:Selector>Timestamp</io:Selector>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="vid:VideoCaptureDevice">
+            <vid:Index>0</vid:Index>
+            <vid:Format>
+              <vid:FrameSize>
+                <vid:Width>1280</vid:Width>
+                <vid:Height>1024</vid:Height>
+              </vid:FrameSize>
+              <vid:AverageFrameRate>30</vid:AverageFrameRate>
+              <vid:MaximumFrameRate>30</vid:MaximumFrameRate>
+              <vid:BitCount>24</vid:BitCount>
+            </vid:Format>
+            <vid:CaptureProperties />
+          </Combinator>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="cv:LoadIntrinsics">
+            <cv:FileName>C:\Users\Admin\Projects\SLEEB-Experiments\experiments\camera-intrinsics\calibration_cam0_HD_USB_Camera_1280x1024_20260311_172935.yaml</cv:FileName>
+          </Combinator>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="PropertyMapping">
+          <PropertyMappings>
+            <Property Name="ImageSize" Selector="ImageSize" />
+            <Property Name="FocalLength" Selector="FocalLength" />
+            <Property Name="PrincipalPoint" Selector="PrincipalPoint" />
+            <Property Name="RadialDistortion" Selector="RadialDistortion" />
+            <Property Name="TangentialDistortion" Selector="TangentialDistortion" />
+          </PropertyMappings>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="cv:Undistort">
+            <cv:ImageSize>
+              <cv:Width>1280</cv:Width>
+              <cv:Height>1024</cv:Height>
+            </cv:ImageSize>
+            <cv:Alpha>0.99236641221374045</cv:Alpha>
+            <cv:FocalLength>
+              <cv:X>1171.0678463377142</cv:X>
+              <cv:Y>1175.1715698751041</cv:Y>
+            </cv:FocalLength>
+            <cv:PrincipalPoint>
+              <cv:X>654.493651344733</cv:X>
+              <cv:Y>525.43354291085745</cv:Y>
+            </cv:PrincipalPoint>
+            <cv:RadialDistortion>
+              <cv:X>-0.45727154180180746</cv:X>
+              <cv:Y>0.52093211266096417</cv:Y>
+              <cv:Z>-0.59273387865600824</cv:Z>
+            </cv:RadialDistortion>
+            <cv:TangentialDistortion>
+              <cv:X>0.0044102775839074586</cv:X>
+              <cv:Y>-0.0065274643910280938</cv:Y>
+            </cv:TangentialDistortion>
+          </Combinator>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="cv:Crop">
+            <cv:RegionOfInterest>
+              <cv:X>557</cv:X>
+              <cv:Y>255</cv:Y>
+              <cv:Width>605</cv:Width>
+              <cv:Height>812</cv:Height>
+            </cv:RegionOfInterest>
           </Combinator>
         </Builder>
       </Expression>
@@ -212,6 +325,13 @@ Luckily recording from multiple cameras simultanously is the easiest part. You c
       <Edge From="10" To="11" Label="Source1" />
       <Edge From="10" To="12" Label="Source1" />
       <Edge From="12" To="13" Label="Source1" />
+      <Edge From="14" To="17" Label="Source1" />
+      <Edge From="15" To="16" Label="Source1" />
+      <Edge From="16" To="17" Label="Source2" />
+      <Edge From="17" To="18" Label="Source1" />
+      <Edge From="17" To="20" Label="Source1" />
+      <Edge From="18" To="19" Label="Source1" />
+      <Edge From="20" To="21" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
