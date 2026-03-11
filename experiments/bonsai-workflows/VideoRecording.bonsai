@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.9.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:vid="clr-namespace:Bonsai.Video;assembly=Bonsai.Video"
+                 xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="Annotation">
+        <Name>README</Name>
+        <Text><![CDATA[## Introduction
+
+This workflow goes through how to record a video, how to save the frames'  timestamps in a CSV file, how to undistort the video stream and how to record from multiple cameras simultaneously. 
+
+All the grey operators are currently commented out; to uncomment, click them and press `Ctrl + Shift + D`. To comment out operators, click them and press `Ctrl + D`.
+
+## Writing video
+
+This is the simplest possible workflow. We connect `VideoCaptureDevice` to a `VideoWriter` operator. `VideoCaptureDevice` accesses our camera, and allows you to choose the camera along with the recording format. `VideoWriter` saved our video to a file. You can specify the filename, whre it should be saved, and to add a suffix to the filename so it doesn' overwrite earlier videos (or avoids not saving anything).
+
+## Writing timestamp
+
+Most of the cameras we use have what is called a _variable frame rate_ which means that while it might be approximately 30 FPS, it is not exact and might drift, and so the approximated duration of a video may differ from the actual duration. The easiest way to get around this issue is to save the timestamps for each frame to a file and load that file during analysis. In this workflow we get the timestamp (date, time down to millisecond) and save it in `CsvWriter`. Again, you can specify the `FileName` and suffix which is useful. 
+
+## Undistortion
+
+If we want to undistort the video, then we can use the calibration file we produced in `CameraCalibration.bonsai` (if you haven't seen that, check that workflow out too). We load the file in `LoadIntrinsics`, exposes the files content with the `PropertyMapping` and points boh that and the video stream to an `Undistort` operator. The resulting video stream from `Undistort` will now be an undistorted video.
+
+## Multiple cameras
+
+Luckily recording from multiple cameras simultanously is the easiest part. You can simply copy and paste the entire block of your choice to enable recording on multiple cameras simultaneously. You just have to make sure to adapt the calibration file in `LoadIntrinsics`, and the `FileName`s in both the `VideoWriter` and `CsvWriter`.]]></Text>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="vid:VideoCaptureDevice">
+          <vid:Index>0</vid:Index>
+          <vid:Format>
+            <vid:FrameSize>
+              <vid:Width>1920</vid:Width>
+              <vid:Height>1080</vid:Height>
+            </vid:FrameSize>
+            <vid:AverageFrameRate>30</vid:AverageFrameRate>
+            <vid:MaximumFrameRate>30</vid:MaximumFrameRate>
+            <vid:BitCount>24</vid:BitCount>
+          </vid:Format>
+          <vid:CaptureProperties />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="cv:VideoWriter">
+          <cv:FileName>C:\Users\Admin\Projects\BelayExperiments\data\video-recording.avi</cv:FileName>
+          <cv:Suffix>Timestamp</cv:Suffix>
+          <cv:Buffered>true</cv:Buffered>
+          <cv:Overwrite>false</cv:Overwrite>
+          <cv:FourCC>FMP4</cv:FourCC>
+          <cv:FrameRate>30</cv:FrameRate>
+          <cv:FrameSize>
+            <cv:Width>0</cv:Width>
+            <cv:Height>0</cv:Height>
+          </cv:FrameSize>
+          <cv:ResizeInterpolation>NearestNeighbor</cv:ResizeInterpolation>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="vid:VideoCaptureDevice">
+            <vid:Index>0</vid:Index>
+            <vid:Format>
+              <vid:FrameSize>
+                <vid:Width>1920</vid:Width>
+                <vid:Height>1080</vid:Height>
+              </vid:FrameSize>
+              <vid:AverageFrameRate>30</vid:AverageFrameRate>
+              <vid:MaximumFrameRate>30</vid:MaximumFrameRate>
+              <vid:BitCount>24</vid:BitCount>
+            </vid:Format>
+            <vid:CaptureProperties />
+          </Combinator>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="cv:VideoWriter">
+            <cv:FileName>C:\Users\Admin\Projects\BelayExperiments\data\video-recording.avi</cv:FileName>
+            <cv:Suffix>Timestamp</cv:Suffix>
+            <cv:Buffered>true</cv:Buffered>
+            <cv:Overwrite>false</cv:Overwrite>
+            <cv:FourCC>FMP4</cv:FourCC>
+            <cv:FrameRate>30</cv:FrameRate>
+            <cv:FrameSize>
+              <cv:Width>0</cv:Width>
+              <cv:Height>0</cv:Height>
+            </cv:FrameSize>
+            <cv:ResizeInterpolation>NearestNeighbor</cv:ResizeInterpolation>
+          </Combinator>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="rx:Timestamp" />
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="io:CsvWriter">
+          <io:FileName>C:\Users\Admin\Projects\SLEEB-Experiments\data\cam-check.csv</io:FileName>
+          <io:Append>false</io:Append>
+          <io:Overwrite>false</io:Overwrite>
+          <io:Suffix>Timestamp</io:Suffix>
+          <io:IncludeHeader>true</io:IncludeHeader>
+          <io:Selector>Timestamp</io:Selector>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="vid:VideoCaptureDevice">
+            <vid:Index>0</vid:Index>
+            <vid:Format>
+              <vid:FrameSize>
+                <vid:Width>1920</vid:Width>
+                <vid:Height>1080</vid:Height>
+              </vid:FrameSize>
+              <vid:AverageFrameRate>30</vid:AverageFrameRate>
+              <vid:MaximumFrameRate>30</vid:MaximumFrameRate>
+              <vid:BitCount>24</vid:BitCount>
+            </vid:Format>
+            <vid:CaptureProperties />
+          </Combinator>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="cv:LoadIntrinsics">
+            <cv:FileName>C:\Users\Admin\Projects\BelayExperiments\camera-intrinsics\ELP_intrinsics2.yml</cv:FileName>
+          </Combinator>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="PropertyMapping">
+          <PropertyMappings />
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="cv:Undistort">
+            <cv:ImageSize>
+              <cv:Width>640</cv:Width>
+              <cv:Height>480</cv:Height>
+            </cv:ImageSize>
+            <cv:Alpha>0</cv:Alpha>
+            <cv:FocalLength>
+              <cv:X>503.52532958984375</cv:X>
+              <cv:Y>501.61544799804688</cv:Y>
+            </cv:FocalLength>
+            <cv:PrincipalPoint>
+              <cv:X>297.55792236328125</cv:X>
+              <cv:Y>237.22175598144531</cv:Y>
+            </cv:PrincipalPoint>
+            <cv:RadialDistortion>
+              <cv:X>-0.29658779501914978</cv:X>
+              <cv:Y>-0.011305746622383595</cv:Y>
+              <cv:Z>0.13969382643699646</cv:Z>
+            </cv:RadialDistortion>
+            <cv:TangentialDistortion>
+              <cv:X>0.0088229179382324219</cv:X>
+              <cv:Y>0.0077228806912899017</cv:Y>
+            </cv:TangentialDistortion>
+          </Combinator>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="cv:VideoWriter">
+            <cv:FileName>C:\Users\Admin\Projects\BelayExperiments\data\video-recording.avi</cv:FileName>
+            <cv:Suffix>Timestamp</cv:Suffix>
+            <cv:Buffered>true</cv:Buffered>
+            <cv:Overwrite>false</cv:Overwrite>
+            <cv:FourCC>FMP4</cv:FourCC>
+            <cv:FrameRate>30</cv:FrameRate>
+            <cv:FrameSize>
+              <cv:Width>0</cv:Width>
+              <cv:Height>0</cv:Height>
+            </cv:FrameSize>
+            <cv:ResizeInterpolation>NearestNeighbor</cv:ResizeInterpolation>
+          </Combinator>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="Combinator">
+          <Combinator xsi:type="rx:Timestamp" />
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="io:CsvWriter">
+          <io:FileName>C:\Users\Admin\Projects\SLEEB-Experiments\data\cam-check.csv</io:FileName>
+          <io:Append>false</io:Append>
+          <io:Overwrite>false</io:Overwrite>
+          <io:Suffix>Timestamp</io:Suffix>
+          <io:IncludeHeader>true</io:IncludeHeader>
+          <io:Selector>Timestamp</io:Selector>
+        </Builder>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="3" To="5" Label="Source1" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="7" To="10" Label="Source1" />
+      <Edge From="8" To="9" Label="Source1" />
+      <Edge From="9" To="10" Label="Source2" />
+      <Edge From="10" To="11" Label="Source1" />
+      <Edge From="10" To="12" Label="Source1" />
+      <Edge From="12" To="13" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>

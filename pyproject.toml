@@ -1,7 +1,7 @@
 [project]
 name = "SLEEB Lab Experiments"
 version = "0.1.0"
-description = "Repository for exprimental workflows - cameras, microcontrollers, Bonsai."
+description = "Template repository for exprimental workflows - cameras, microcontrollers, Bonsai."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [

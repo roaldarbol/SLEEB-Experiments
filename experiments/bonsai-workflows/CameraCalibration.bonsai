@@ -9,7 +9,7 @@
     <Nodes>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="cv:CameraCapture">
-          <cv:Index>0</cv:Index>
+          <cv:Index>1</cv:Index>
           <cv:CaptureProperties />
         </Combinator>
       </Expression>
@@ -51,9 +51,32 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="cv:SaveIntrinsics">
-          <cv:FileName>camera-intrinsics\ELP_intrinsics.yml</cv:FileName>
-          <cv:Suffix>FileCount</cv:Suffix>
+          <cv:FileName>C:\Users\Admin\Projects\SLEEB-Experiments\experiments\camera-intrinsics\ELP_intrinsics.yml</cv:FileName>
+          <cv:Suffix>Timestamp</cv:Suffix>
         </Combinator>
+      </Expression>
+      <Expression xsi:type="Annotation">
+        <Name>README</Name>
+        <Text><![CDATA[## Introduction
+Using this workflow, you can produce camera calibration files that can be used in other workflows to calibrate the camera. A calibration file is specific to the combination of camera and lens, so assoon you use a new camera or lens, you should produce a new calibration file before continuing (if you already recorded the data but not the calibration, don't worry, you can still calibrate the video file after the fact if you haven't moved or changed the camera). 
+
+## Preparation
+First of all, make sure you have a calibration board - a checkerboard - printed out, and ideally clamped between two acrylic sheets to keep it completely straight.
+
+1. Ensure you have the correct camera in `CameraCapture`. If you only have one camera connected, then the `Index` sould be `0`.
+2. In `SaveIntrinsics` secify the path and filename for the calibration file. Keep `Suffix` set to `FileCount`. 
+
+Once these are set, you can starting producing calibrtion files.
+
+## Create calibration files
+1. Start the workflow
+2. Press `Space` to get a calibration - ensure that the entire board is visible to the camera.
+3. Repeat this a couple of times, moving the calibration board around, rotating it and moving it.
+4. Finish the workflow by pressing `Q`.
+
+## Choose the best calibration
+
+The calibration files will have been saved into the directory you specified (maybe in `camera-intrinsics/`). At the bottom of each file, you will find the `reprojection_error` - choose the file with the lowest error for your further experiments with this camera.]]></Text>
       </Expression>
     </Nodes>
     <Edges>
