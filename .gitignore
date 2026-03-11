@@ -1,0 +1,10 @@
+# pixi environments
+.pixi
+.venv
+.bonsai
+.DS_Store
+__pycache__
+*.csv
+*.avi
+*.mp4
+

@@ -1,0 +1,11 @@
+[project]
+name = "SLEEB Lab Experiments"
+version = "0.1.0"
+description = "Repository for exprimental workflows - cameras, microcontrollers, Bonsai."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "belay>=0.30.0",
+    "ipykernel>=7.1.0",
+    "pip>=25.3",
+]

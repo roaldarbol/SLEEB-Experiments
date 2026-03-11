@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.9.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
+                 xmlns:wie="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="cv:CameraCapture">
+          <cv:Index>0</cv:Index>
+          <cv:CaptureProperties />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="cv:LoadIntrinsics">
+          <cv:FileName>C:\Users\Admin\Projects\BelayExperiments\camera-intrinsics\ELP_intrinsics3.yml</cv:FileName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="cv:Undistort">
+          <cv:ImageSize>
+            <cv:Width>640</cv:Width>
+            <cv:Height>480</cv:Height>
+          </cv:ImageSize>
+          <cv:Alpha>0</cv:Alpha>
+          <cv:FocalLength>
+            <cv:X>503.52532958984375</cv:X>
+            <cv:Y>501.61544799804688</cv:Y>
+          </cv:FocalLength>
+          <cv:PrincipalPoint>
+            <cv:X>297.55792236328125</cv:X>
+            <cv:Y>237.22175598144531</cv:Y>
+          </cv:PrincipalPoint>
+          <cv:RadialDistortion>
+            <cv:X>-0.29658779501914978</cv:X>
+            <cv:Y>-0.011305746622383595</cv:Y>
+            <cv:Z>0.13969382643699646</cv:Z>
+          </cv:RadialDistortion>
+          <cv:TangentialDistortion>
+            <cv:X>0.0088229179382324219</cv:X>
+            <cv:Y>0.0077228806912899017</cv:Y>
+          </cv:TangentialDistortion>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="wie:KeyDown">
+          <wie:Filter>Space</wie:Filter>
+          <wie:SuppressRepetitions>false</wie:SuppressRepetitions>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Sample" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="cv:SaveImage">
+          <cv:FileName>background\bg.png</cv:FileName>
+          <cv:Suffix>Timestamp</cv:Suffix>
+        </Combinator>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="3" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="2" To="3" Label="Source2" />
+      <Edge From="3" To="6" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="5" To="6" Label="Source2" />
+      <Edge From="6" To="7" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
